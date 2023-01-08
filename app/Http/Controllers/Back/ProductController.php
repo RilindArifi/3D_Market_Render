@@ -5,15 +5,18 @@ namespace App\Http\Controllers\Back;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductRequest;
 use App\Http\Resources\CategoryResource;
+use App\Http\Resources\CategorySubResource;
 use App\Http\Resources\ProductResource;
+use App\Http\Responses\ProductResponse;
 use App\Models\Category;
+use App\Models\CategorySub;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
-class ProductsController extends Controller
+class ProductController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -22,10 +25,8 @@ class ProductsController extends Controller
      */
     public function index()
     {
-
-        $product = ProductResource::collection(Product::with('category')->orderBy('id', 'DESC')->get());
         return Inertia::render('BackEnd/Products/Index',[
-            'product'=> $product
+            'products'=> ProductResource::collection(Product::with('category')->latest()->get())
         ]);
     }
 
@@ -36,8 +37,10 @@ class ProductsController extends Controller
      */
     public function create()
     {
-        $category = CategoryResource::collection(Category::orderBy('id', 'DESC')->get());
-        return Inertia::render('BackEnd/Products/Create' , compact('category'));
+        return Inertia::render('BackEnd/Products/Create' ,[
+            'categories' => CategoryResource::collection(Category::latest()->get()),
+            'category_subs' => CategorySubResource::collection(CategorySub::all())
+        ]);
     }
 
     /**
@@ -48,15 +51,7 @@ class ProductsController extends Controller
      */
     public function store(ProductRequest $request)
     {
-        $product = Product::create([
-            'name' => $request->input('name'),
-            'category_id' => $request->category_id,
-            'link' => $request->input('link'),
-        ]);
-        $product->addMediaFromRequest('image')
-            ->toMediaCollection('product');
-
-        return Redirect::route('product.index');
+        return new ProductResponse(new Product);
     }
 
     /**
@@ -67,10 +62,10 @@ class ProductsController extends Controller
      */
     public function edit(Product $product)
     {
-        $category = Category::all();
         return Inertia::render('BackEnd/Products/Update',[
             'product' => $product,
-            'category' => $category,
+            'category' => CategoryResource::collection(Category::latest()->get()),
+            'category_subs' => CategorySubResource::collection(CategorySub::all()),
             'image' => $product->getFirstMediaUrl('product')
         ]);
     }
@@ -79,25 +74,12 @@ class ProductsController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function update(ProductRequest $request, $id)
+    public function update(ProductRequest $request, Product $product)
     {
-        $product = Product::findOrFail($id);
-
-        $product->update([
-            'name' => $request->name,
-            'category_id' => $request->category_id,
-            'link' => $request->link,
-        ]);
-
-        if($request->file('image')){
-            $product->clearMediaCollection('product');
-            $product->addMediaFromRequest('image')
-                ->toMediaCollection('product');
-        }
-        return Redirect::route('product.index');
+        return new ProductResponse($product);
     }
 
     /**

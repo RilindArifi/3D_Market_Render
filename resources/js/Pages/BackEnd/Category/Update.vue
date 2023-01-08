@@ -1,6 +1,6 @@
 <template>
     <Head title="Update Category" />
-    <Dashboard>
+    <Authenticated>
       <div class="flex justify-end">
       <Link :href="route('category.index')"
         class="bg-gradient-fuchsia inline-block px-8 py-2 mb-0 font-bold text-center uppercase align-middle transition-all bg-transparent border border-solid rounded-lg shadow-none cursor-pointer leading-pro ease-soft-in text-size-xs bg-150 active:opacity-85 hover:scale-102 tracking-tight-soft bg-x-25 border-fuchsia-500 text-white hover:opacity-75">
@@ -23,23 +23,6 @@
                         </div>
                     </div>
                   </div>
-                  <div>
-                    <label class="block text-sm font-medium text-gray-700">Cover photo</label>
-                    <div
-                      class="mt-1 flex justify-center rounded-md border-2 border-dashed border-gray-300 px-6 pt-5 pb-6">
-                      <div class="space-y-1 text-center">
-                        <div class="flex text-sm text-gray-600">
-                            <input @input="form.image = $event.target.files[0]"  class="block mb-5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="default_size" type="file">
-                        </div>
-                        <div class="flex text-sm text-gray-600">
-                            <img :src="image" class="w-30 h-30" alt="">
-                        </div>
-                        <div class="text-red-600">
-                          {{ errors.image }}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
                 </div>
                 <div class="bg-gray-50 px-4 py-3 text-right sm:px-6">
                   <button type="submit" :disabled="form.processing"
@@ -50,37 +33,31 @@
           </div>
         </div>
       </div>
-    </Dashboard>
+    </Authenticated>
   </template>
 
   <script setup>
-  import Dashboard from '@/Layouts/Dashboard.vue';
+  import Authenticated from '@/Layouts/Authenticated.vue';
   import { Head, useForm } from '@inertiajs/inertia-vue3';
   import { Inertia } from '@inertiajs/inertia';
 
   const
       props = defineProps({
             category: Object,
-            image: String,
             errors: Object
         }),
 
         form = useForm({
             name: props.category.name,
-            image: null,
         }),
 
        onSubmit = () => {
            Inertia.post(route('category.update', props.category.id), {
                _method: "put",
                name: form.name,
-               image: form.image
            }, {
                onSuccess: response => {
-                   ElMessage({
-                       message: 'Category has been successfully updated.',
-                       type: 'success',
-                   });
+                   ElMessage({message: 'Category has been successfully updated.',type: 'success',});
                    Inertia.reload();
                }
            })

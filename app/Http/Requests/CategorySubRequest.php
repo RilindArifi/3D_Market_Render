@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UnderProductRequest extends FormRequest
+class CategorySubRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,9 +26,6 @@ class UnderProductRequest extends FormRequest
         return [
             'name' => ['required'],
             'category_id' => ['required'],
-            'product_id' => ['required'],
-            'image' => [request()->underproduct ? '' : 'required'],
-            'link' => ['required','url'],
         ];
     }
 }

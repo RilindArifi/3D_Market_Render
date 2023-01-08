@@ -26,6 +26,7 @@ class ProductRequest extends FormRequest
         return [
             'name' => ['required'],
             'category_id' => ['required'],
+            'category_sub_id' => ['required'],
             'image' => [request()->product ? '' : 'required'],
             'link' => ['required','url'],
         ];

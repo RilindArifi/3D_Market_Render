@@ -1,6 +1,6 @@
 <template>
   <Head title="Create Category" />
-  <Dashboard>
+  <Authenticated>
     <div class="flex justify-end">
       <Link :href="route('category.index')"
         class="bg-gradient-fuchsia inline-block px-8 py-2 mb-0 font-bold text-center uppercase align-middle transition-all bg-transparent border border-solid rounded-lg shadow-none cursor-pointer leading-pro ease-soft-in text-size-xs bg-150 active:opacity-85 hover:scale-102 tracking-tight-soft bg-x-25 border-fuchsia-500 text-white hover:opacity-75">
@@ -19,23 +19,8 @@
                         <label for="name" class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">Category name</label>
                       </div>
                       <div class="text-red-600">
-                        {{ errors.name }}
+                        {{ categoryForm.errors.name }}
                       </div>
-                  </div>
-                </div>
-                <div>
-                  <label class="block text-sm font-medium text-gray-700">Cover photo</label>
-                  <div
-                    class="mt-1 flex justify-center rounded-md border-2 border-dashed border-gray-300 px-6 pt-5 pb-6">
-                    <div class="space-y-1 text-center">
-                      <div class="flex text-sm text-gray-600">
-                          <input name="image" @input="categoryForm.image = $event.target.files[0]" class="block mb-5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="default_size" type="file">
-
-                      </div>
-                      <div class="text-red-600">
-                        {{ errors.image }}
-                      </div>
-                    </div>
                   </div>
                 </div>
               </div>
@@ -48,14 +33,13 @@
         </div>
       </div>
     </div>
-  </Dashboard>
+  </Authenticated>
 </template>
 
 <script setup>
-import axios from 'axios';
-import Dashboard from '@/Layouts/Dashboard.vue';
 import { Head, useForm } from '@inertiajs/inertia-vue3';
 import {Inertia} from "@inertiajs/inertia";
+import Authenticated from "@/Layouts/Authenticated.vue";
 
 const
     props = defineProps({
@@ -63,16 +47,12 @@ const
     }),
     categoryForm = useForm({
         name: null,
-        image: null,
     }),
 
     onSubmit = () => {
         categoryForm.post(route('category.store'),{
             onSuccess: response => {
-                ElMessage({
-                    message: 'Category has been successfully created.',
-                    type: 'success',
-                });
+                ElMessage({message: 'Category has been successfully created.', type: 'success', });
                 Inertia.reload();
             }
         })

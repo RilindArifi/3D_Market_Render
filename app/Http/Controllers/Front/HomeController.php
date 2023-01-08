@@ -4,11 +4,11 @@ namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CategoryResource;
+use App\Http\Resources\CategorySubResource;
 use App\Http\Resources\ProductResource;
-use App\Http\Resources\UnderProductResource;
 use App\Models\Category;
+use App\Models\CategorySub;
 use App\Models\Product;
-use App\Models\UnderProduct;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -22,80 +22,25 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $categories = CategoryResource::collection(Category::all());
-        $products = ProductResource::collection(Product::all());
-        $under_products = UnderProductResource::collection(UnderProduct::all());
-
         return Inertia::render('FrontEnd/Home/Index',[
-            'categories' => $categories,
-            'products' => $products,
-            'under_product' => $under_products,
+            'categories' => Category::with('category_sub')->latest()->get(),
+            'products' => ProductResource::collection(Product::all()),
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show_products(Category $category)
     {
-        //
-    }
+        // $categories = new CategoryResource($category);
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        return inertia('FrontEnd/Products/Index',[
+            'products' => ProductResource::collection($category->product)
+        ]);
     }
 }

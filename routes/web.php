@@ -1,11 +1,9 @@
 <?php
 
-use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Back\DashboardController;
 use App\Http\Controllers\Back\CategoryController;
-use App\Http\Controllers\Back\ProductsController;
-use App\Http\Controllers\Back\UnderProductController;
-use App\Http\Controllers\Front\ContactController;
+use App\Http\Controllers\Back\ProductController;
+use App\Http\Controllers\Back\CategorySubController;
 use App\Http\Controllers\Front\HomeController;
 
 use Illuminate\Support\Facades\Route;
@@ -22,15 +20,18 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::get('/',[HomeController::class, 'index'])->name('home');
+
+Route::controller(HomeController::class)->group(function () {
+    Route::get('/', 'index')->name('home');
+    Route::get('/showproducts/{category}', 'show_products')->name('show_products');
+});
 
 
 Route::middleware('auth')->group(function () {
     Route::get('dashboard',[DashboardController::class, 'index'])->name('dashboard');
     Route::resource('category',CategoryController::class);
-    Route::resource('product', ProductsController::class);
-    Route::resource('underproduct', UnderProductController::class);
+    Route::resource('category_sub',CategorySubController::class);
+    Route::resource('product', ProductController::class);
 });
 
-Route::get('contact',[ContactController::class, 'index']);
 require __DIR__.'/auth.php';

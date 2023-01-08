@@ -1,10 +1,10 @@
 <template>
     <Head title="Category" />
-    <Dashboard>
-    <div class="flex justify-end">
-        <Link :href="route('category.create')" class="bg-gradient-fuchsia inline-block px-8 py-2 mb-0 font-bold text-center uppercase align-middle transition-all bg-transparent border border-solid rounded-lg shadow-none cursor-pointer leading-pro ease-soft-in text-size-xs bg-150 active:opacity-85 hover:scale-102 tracking-tight-soft bg-x-25 border-fuchsia-500 text-white hover:opacity-75">+ Add Category</Link>
-    </div>
-    <div class="relative shadow-md sm:rounded-lg mt-3">
+    <Authenticated>
+        <div class="flex justify-end">
+            <Link :href="route('category.create')" class="bg-gradient-fuchsia inline-block px-8 py-2 mb-0 font-bold text-center uppercase align-middle transition-all bg-transparent border border-solid rounded-lg shadow-none cursor-pointer leading-pro ease-soft-in text-size-xs bg-150 active:opacity-85 hover:scale-102 tracking-tight-soft bg-x-25 border-fuchsia-500 text-white hover:opacity-75">+ Add Category</Link>
+        </div>
+        <div class="relative shadow-md sm:rounded-lg mt-3">
         <div class="flex justify-end items-center pb-4">
             <label for="table-search" class="sr-only">Search</label>
             <div class="relative">
@@ -27,9 +27,6 @@
                         Category name
                     </th>
                     <th scope="col" class="py-3 px-6">
-                        Image
-                    </th>
-                    <th scope="col" class="py-3 px-6">
                         Action
                     </th>
                 </tr>
@@ -47,32 +44,26 @@
                         {{ categories.name }}
                     </th>
                     <td class="py-4 px-6">
-                        <img :src="categories.image" alt="" class="w-30 h-30">
-                    </td>
-                    <td class="py-4 px-6">
                         <Link
                             class="text-green-500 hover:text-green-700 mr-6"
                             :href="route('category.edit', categories.id)"
                         >
                         <i class="fa-solid fa-pen-to-square"></i>
                         </Link>
-                        <el-button class="text-danger" text @click="open(categories.id)"><i class="fa-solid fa-trash"></i></el-button>
+                        <el-button text @click="open(categories.id)"><i class="fa-solid fa-trash"></i></el-button>
                     </td>
                 </tr>
             </tbody>
         </table>
     </div>
-
-</Dashboard>
-
+    </Authenticated>
 </template>
 
 
 <script setup>
- import Dashboard from '@/Layouts/Dashboard.vue';
-  import { Head, useForm } from '@inertiajs/inertia-vue3';
-  import { Inertia } from '@inertiajs/inertia';
-
+import { Head, useForm } from '@inertiajs/inertia-vue3';
+import { Inertia } from '@inertiajs/inertia';
+ import Authenticated from "@/Layouts/Authenticated.vue";
 
  const
      props = defineProps({
@@ -92,19 +83,13 @@
              .then(() => {
                  Inertia.delete(route('category.destroy',{id}),{
                      onSuccess: response => {
-                         ElMessage({
-                             message: 'Category has been successfully deleted.',
-                             type: 'success',
-                         });
+                         ElMessage({  message: 'Category has been successfully deleted.', type: 'success', });
                          Inertia.reload();
                      }
                  })
              })
              .catch(() => {
-                 ElMessage({
-                     type: 'info',
-                     message: 'Delete canceled',
-                 })
+                 ElMessage({ type: 'info', message: 'Delete canceled', })
              })
      }
 

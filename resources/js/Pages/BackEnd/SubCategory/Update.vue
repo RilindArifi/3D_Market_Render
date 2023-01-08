@@ -2,7 +2,7 @@
     <Head title="Create Product" />
     <Authenticated>
       <div class="flex justify-end">
-        <Link :href="route('product.index')"
+        <Link :href="route('category_sub.index')"
           class="bg-gradient-fuchsia inline-block px-8 py-2 mb-0 font-bold text-center uppercase align-middle transition-all bg-transparent border border-solid rounded-lg shadow-none cursor-pointer leading-pro ease-soft-in text-size-xs bg-150 active:opacity-85 hover:scale-102 tracking-tight-soft bg-x-25 border-fuchsia-500 text-white hover:opacity-75">
         Back</Link>
       </div>
@@ -16,11 +16,11 @@
                     <div class="col-span-6 sm:col-span-3">
                       <label for="category_id" class="block text-sm font-medium text-gray-700">Choose Category</label>
                         <select name="category_id" id="category_id" v-model="form.category_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                            <option v-for="categories in category" :key="categories.id"
-                            :value="categories.id">{{categories.name}}</option>
+                            <option v-for="category in categories" :key="category.id"
+                            :value="category.id">{{category.name}}</option>
                         </select>
                         <div class="text-red-600">
-                          {{ errors.category_id }}
+                          {{ form.errors.category_id }}
                         </div>
                     </div>
                   </div>
@@ -31,36 +31,8 @@
                           <label for="name" class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">Product name</label>
                         </div>
                         <div class="text-red-600">
-                          {{ errors.name }}
+                          {{ form.errors.name }}
                         </div>
-                    </div>
-                  </div>
-                  <div class="grid grid-cols-3 gap-6">
-                    <div class="col-span-6 sm:col-span-3">
-                        <div class="relative">
-                          <input type="text"  name="name" v-model="form.link" class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " />
-                          <label for="name" class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">Product Link</label>
-                        </div>
-                        <div class="text-red-600">
-                          {{ errors.link }}
-                        </div>
-                    </div>
-                  </div>
-                  <div>
-                    <label class="block text-sm font-medium text-gray-700">Product image</label>
-                    <div
-                      class="mt-1 flex justify-center rounded-md border-2 border-dashed border-gray-300 px-6 pt-5 pb-6">
-                      <div class="space-y-1 text-center">
-                        <div class="flex text-sm text-gray-600">
-                            <input name="image" @input="form.image = $event.target.files[0]" class="block mb-5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="default_size" type="file">
-                        </div>
-                        <div class="flex text-sm text-gray-600">
-                            <img :src="image" class="w-30 h-30" alt="">
-                        </div>
-                        <div class="text-red-600">
-                          {{ errors.image }}
-                        </div>
-                      </div>
                     </div>
                   </div>
                 </div>
@@ -83,32 +55,19 @@ import { Inertia } from '@inertiajs/inertia';
 import Authenticated from "@/Layouts/Authenticated.vue";
 
 const props = defineProps({
-    product: Object,
-    category: Object,
-    image: Object,
-    errors: Object
+    category_sub: Object,
+    categories: Object,
 })
 
 const form = useForm({
-    name: props.product.name,
-    category_id: props.product.category_id,
-    link: props.product.link,
-    image: null,
+    name: props.category_sub.name,
+    category_id: props.category_sub.category_id,
 })
 
 const onSubmit = () => {
-    Inertia.post(route('product.update',props.product.id), {
-        _method: "put",
-        name: form.name,
-        category_id: form.category_id,
-        link: form.link,
-        image: form.image
-    },{
+    form.put(route('category_sub.update',props.category_sub), {
         onSuccess: response => {
-            ElMessage({
-                message: 'Product has been successfully updated.',
-                type: 'success',
-            });
+            ElMessage({message: 'Category Sub has been successfully updated.',type: 'success', });
             Inertia.reload();
         }
     });

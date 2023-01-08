@@ -1,20 +1,20 @@
 <script setup>
     import { Head, Link } from '@inertiajs/inertia-vue3';
-    import Dashboard from '@/Layouts/Dashboard.vue';
-    
+    import Authenticated from "@/Layouts/Authenticated.vue";
+
     defineProps({
         canLogin: Boolean,
         laravelVersion: String,
         phpVersion: String,
     });
-    
+
     </script>
-        
+
     <template>
         <Head title="Dashboard" />
-        <Dashboard>
+        <Authenticated>
             <div class="w-full px-6 py-6 mx-auto">
-    
+
                 <div class="flex flex-wrap -mx-3">
                     <!-- card1 -->
                     <div class="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4">
@@ -42,7 +42,7 @@
                             </div>
                         </div>
                     </div>
-    
+
                     <!-- card2 -->
                     <div class="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4">
                         <div
@@ -69,7 +69,7 @@
                             </div>
                         </div>
                     </div>
-    
+
                     <!-- card3 -->
                     <div class="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4">
                         <div
@@ -96,7 +96,7 @@
                             </div>
                         </div>
                     </div>
-    
+
                     <!-- card4 -->
                     <div class="w-full max-w-full px-3 sm:w-1/2 sm:flex-none xl:w-1/4">
                         <div
@@ -123,7 +123,7 @@
                         </div>
                     </div>
                 </div>
-    
+
                 <div class="flex flex-wrap mt-6 -mx-3">
                     <div class="w-full px-3 mb-6 lg:mb-0 lg:w-7/12 lg:flex-none">
                         <div
@@ -161,16 +161,14 @@
                     <div class="w-full max-w-full px-3 lg:w-5/12 lg:flex-none">
                         <div
                             class="border-black/12.5 shadow-soft-xl relative flex h-full min-w-0 flex-col break-words rounded-2xl border-0 border-solid bg-white bg-clip-border p-4">
-                            <div class="relative h-full overflow-hidden bg-cover rounded-xl"
-                                style="background-image: url('./assets/img/ivancik.jpg')">
+                            <div class="relative h-full overflow-hidden bg-cover rounded-xl">
                                 <span
                                     class="absolute top-0 left-0 w-full h-full bg-center bg-cover bg-gradient-dark-gray opacity-80"></span>
                                 <div class="relative z-10 flex flex-col flex-auto h-full p-4">
                                     <h5 class="pt-2 mb-6 font-bold text-white">Work with the rockets</h5>
                                     <p class="text-white">Wealth creation is an evolutionarily recent positive-sum game. It
                                         is all about who take the opportunity first.</p>
-                                    <a class="mt-auto mb-0 font-semibold leading-normal text-white group text-size-sm"
-                                        href="javascript:;">
+                                    <a class="mt-auto mb-0 font-semibold leading-normal text-white group text-size-sm" >
                                         Read More
                                         <i
                                             class="fas fa-arrow-right ease-bounce text-size-sm group-hover:translate-x-1.25 ml-1 leading-normal transition-all duration-200"></i>
@@ -180,7 +178,7 @@
                         </div>
                     </div>
                 </div>
-    
+
                 <div class="flex flex-wrap mt-6 -mx-3">
                     <div class="w-full max-w-full px-3 mt-0 mb-6 lg:mb-0 lg:w-5/12 lg:flex-none">
                         <div
@@ -369,10 +367,10 @@
                         </div>
                     </div>
                 </div>
-    
+
                 <div class="flex flex-wrap my-6 -mx-3">
                     <!-- card 1 -->
-    
+
                     <div class="w-full max-w-full px-3 mt-0 mb-6 md:mb-0 md:w-1/2 md:flex-none lg:w-2/3 lg:flex-none">
                         <div
                             class="border-black/12.5 shadow-soft-xl relative flex min-w-0 flex-col break-words rounded-2xl border-0 border-solid bg-white bg-clip-border">
@@ -392,7 +390,7 @@
                                                 <i class="fa fa-ellipsis-v text-slate-400"></i>
                                             </a>
                                             <p class="hidden transform-dropdown-show"></p>
-    
+
                                             <ul dropdown-menu
                                                 class="z-100 text-size-sm transform-dropdown shadow-soft-3xl duration-250 before:duration-350 before:font-awesome before:ease-soft min-w-44 -ml-34 before:text-5.5 pointer-events-none absolute top-0 m-0 mt-2 list-none rounded-lg border-0 border-solid border-transparent bg-white bg-clip-padding px-2 py-4 text-left text-slate-500 opacity-0 transition-all before:absolute before:top-0 before:right-7 before:left-auto before:z-40 before:text-white before:transition-all before:content-['\f0d8']">
                                                 <li class="relative">
@@ -867,9 +865,9 @@
                             </div>
                         </div>
                     </div>
-    
+
                     <!-- card 2 -->
-    
+
                     <div class="w-full max-w-full px-3 md:w-1/2 md:flex-none lg:w-1/3 lg:flex-none">
                         <div
                             class="border-black/12.5 shadow-soft-xl relative flex h-full min-w-0 flex-col break-words rounded-2xl border-0 border-solid bg-white bg-clip-border">
@@ -967,6 +965,5 @@
                     </div>
                 </div>
             </div>
-        </Dashboard>
+        </Authenticated>
     </template>
-        
