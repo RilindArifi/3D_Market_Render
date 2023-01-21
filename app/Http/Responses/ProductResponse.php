@@ -7,9 +7,10 @@ use Illuminate\Contracts\Support\Responsable;
 
 class ProductResponse implements Responsable
 {
-    public function __construct(private Product $product)
+    private Product $product;
+    public function __construct(Product $product)
     {
-
+        $this->product = $product;
     }
 
     public function toResponse($request)
@@ -23,9 +24,9 @@ class ProductResponse implements Responsable
             'link' => $request->input('link')
         ]);
 
-        if($request->file('image')){
+        if($image = $request->file('image')){
             $product->clearMediaCollection('product');
-            $product->addMediaFromRequest('image')
+            $product->addMedia($image)
                 ->toMediaCollection('product');
         }
 

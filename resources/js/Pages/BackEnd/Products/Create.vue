@@ -97,13 +97,13 @@ const
           categories: Object,
           category_subs: Object,
       }),
-    productForm = useForm({
-        name: null,
-        category_id: null,
-        category_sub_id: null,
-        link: null,
-        image: null,
-    }),
+        productForm = useForm({
+            name: null,
+            category_id: null,
+            category_sub_id: null,
+            link: null,
+            image: null,
+        }),
 
     onSubmit = () => {
         productForm.post(route('product.store'),{

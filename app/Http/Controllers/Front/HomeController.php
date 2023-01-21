@@ -3,44 +3,29 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\CategoryResource;
-use App\Http\Resources\CategorySubResource;
+use Illuminate\Database\Eloquent\Builder;
 use App\Http\Resources\ProductResource;
 use App\Models\Category;
-use App\Models\CategorySub;
 use App\Models\Product;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class HomeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function index(Request $request)
     {
         return Inertia::render('FrontEnd/Home/Index',[
             'categories' => Category::with('category_sub')->latest()->get(),
-            'products' => ProductResource::collection(Product::all()),
+            'products' => ProductResource::collection(Product::query()
+                ->when($request->filter, function ($query, $search) {
+                    $query->where('category_sub_id', $search);
+                })
+                ->when($request->filled(['orderBy', 'orderByDir']), fn(Builder $builder) => $builder->orderBy($request->input('orderBy'), $request->input('orderByDir')))
+                ->latest()
+                ->paginate(8)
+                ->withQueryString(),
+            ),
         ]);
     }
 
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Category  $category
-     * @return \Illuminate\Http\Response
-     */
-    public function show_products(Category $category)
-    {
-        // $categories = new CategoryResource($category);
-
-        return inertia('FrontEnd/Products/Index',[
-            'products' => ProductResource::collection($category->product)
-        ]);
-    }
 }

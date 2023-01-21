@@ -79,6 +79,7 @@ class ProductController extends Controller
      */
     public function update(ProductRequest $request, Product $product)
     {
+        dd($product);
         return new ProductResponse($product);
     }
 
