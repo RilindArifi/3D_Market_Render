@@ -15,12 +15,12 @@
                   <div class="grid grid-cols-3 gap-6">
                     <div class="col-span-6 sm:col-span-3">
                       <label for="category_id" class="block text-sm font-medium text-gray-700">Choose Category</label>
-                        <select name="category_id" id="category_id" v-model="form.category_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                            <option v-for="categories in category" :key="categories.id"
-                            :value="categories.id">{{categories.name}}</option>
+                        <select name="category_id" id="category_id" v-model="form.category_sub_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <option v-for="category in category_subs" :key="category.id"
+                            :value="category.id">{{category.name}}</option>
                         </select>
                         <div class="text-red-600">
-                          {{ errors.category_id }}
+                          {{ errors.category_sub_id }}
                         </div>
                     </div>
                   </div>
@@ -84,26 +84,21 @@ import Authenticated from "@/Layouts/Authenticated.vue";
 
 const props = defineProps({
     product: Object,
-    category: Object,
+    category_subs: Object,
     image: Object,
     errors: Object
 })
 
 const form = useForm({
+    _method: "put",
     name: props.product.name,
-    category_id: props.product.category_id,
+    category_sub_id: props.product.category_sub_id,
     link: props.product.link,
     image: null,
 })
 
 const onSubmit = () => {
-    Inertia.post(route('product.update',props.product.id), {
-        _method: "put",
-        name: form.name,
-        category_id: form.category_id,
-        link: form.link,
-        image: form.image
-    },{
+    form.post(route('product.update',props.product.id), {
         onSuccess: response => {
             ElMessage({
                 message: 'Product has been successfully updated.',

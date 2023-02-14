@@ -26,7 +26,7 @@ class ProductController extends Controller
     public function index()
     {
         return Inertia::render('BackEnd/Products/Index',[
-            'products'=> ProductResource::collection(Product::with('category')->latest()->get())
+            'products'=> ProductResource::collection(Product::with('category_sub')->latest()->get())
         ]);
     }
 
@@ -38,7 +38,6 @@ class ProductController extends Controller
     public function create()
     {
         return Inertia::render('BackEnd/Products/Create' ,[
-            'categories' => CategoryResource::collection(Category::latest()->get()),
             'category_subs' => CategorySubResource::collection(CategorySub::all())
         ]);
     }
@@ -64,7 +63,6 @@ class ProductController extends Controller
     {
         return Inertia::render('BackEnd/Products/Update',[
             'product' => $product,
-            'category' => CategoryResource::collection(Category::latest()->get()),
             'category_subs' => CategorySubResource::collection(CategorySub::all()),
             'image' => $product->getFirstMediaUrl('product')
         ]);
@@ -79,7 +77,6 @@ class ProductController extends Controller
      */
     public function update(ProductRequest $request, Product $product)
     {
-        dd($product);
         return new ProductResponse($product);
     }
 

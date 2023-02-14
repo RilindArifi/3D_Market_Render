@@ -25,6 +25,7 @@ class HomeController extends Controller
                 ->paginate(8)
                 ->withQueryString(),
             ),
+            'productsCarousel' => ProductResource::collection(Product::latest()->paginate(4))
         ]);
     }
 

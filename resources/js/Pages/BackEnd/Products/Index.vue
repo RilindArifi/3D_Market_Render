@@ -25,9 +25,6 @@
                             </div>
                         </th>
                         <th scope="col" class="py-3 px-6">
-                            Category name
-                        </th>
-                        <th scope="col" class="py-3 px-6">
                             Category Sub
                         </th>
                         <th scope="col" class="py-3 px-6">
@@ -52,9 +49,6 @@
                                 <label for="checkbox-table-search-1" class="sr-only">checkbox</label>
                             </div>
                         </td>
-                        <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            {{ product.category_id }}
-                        </th>
                         <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             {{ product.category_sub_id }}
                         </th>

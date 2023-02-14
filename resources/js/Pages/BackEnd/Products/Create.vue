@@ -13,18 +13,6 @@
             <div class="shadow sm:overflow-hidden sm:rounded-md border border-solid">
               <div class="space-y-6 bg-white px-4 py-5 sm:p-6">
                 <div class="grid grid-cols-3 gap-6">
-                  <div class="col-span-6 sm:col-span-3">
-                    <label for="category_id" class="block text-sm font-medium text-gray-700">Choose Category</label>
-                      <select v-model="productForm.category_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                          <option v-for="category in categories" :key="category.id"
-                          :value="category.id">{{category.name}}</option>
-                      </select>
-                      <div class="text-red-600">
-                        {{ productForm.errors.category_id }}
-                      </div>
-                  </div>
-                </div>
-                <div class="grid grid-cols-3 gap-6">
                       <div class="col-span-6 sm:col-span-3">
                           <label for="category_id" class="block text-sm font-medium text-gray-700">Choose Category Sub</label>
                           <select v-model="productForm.category_sub_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
@@ -94,12 +82,10 @@ import Authenticated from "@/Layouts/Authenticated.vue";
 
 const
       props = defineProps({
-          categories: Object,
           category_subs: Object,
       }),
         productForm = useForm({
             name: null,
-            category_id: null,
             category_sub_id: null,
             link: null,
             image: null,

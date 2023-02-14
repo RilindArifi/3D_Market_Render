@@ -18,10 +18,6 @@ class Product extends Model implements HasMedia
         'link'
     ];
 
-    public function category()
-    {
-        return $this->belongsTo(Category::class);
-    }
     public function category_sub()
     {
         return $this->belongsTo(CategorySub::class);

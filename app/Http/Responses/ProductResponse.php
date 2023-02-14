@@ -18,7 +18,6 @@ class ProductResponse implements Responsable
         $product = Product::updateOrCreate([
             'id' => $this->product->id,
         ], [
-            'category_id' => $request->category_id,
             'category_sub_id' => $request->category_sub_id,
             'name' => $request->input('name'),
             'link' => $request->input('link')
